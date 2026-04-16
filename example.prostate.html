@@ -1,0 +1,63 @@
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=euc-kr">
+<title>page 48 table 3.2 prostate cancer data</title>
+<meta name="generator" content="Namo WebEditor v6.0">
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="purple" alink="red">
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font size="5"><b>page 48 table 3.2 prostate cancer data</b></font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">prostate &lt;- read.table(&quot;prostate.data&quot;)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">names(prostate)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"># [1] &quot;lcavol&quot; &nbsp;&quot;lweight&quot; &quot;age&quot; &nbsp;&nbsp;&nbsp;&nbsp;&quot;lbph&quot; &nbsp;&nbsp;&nbsp;&quot;svi&quot; &nbsp;&nbsp;&nbsp;&nbsp;&quot;lcp&quot; &nbsp;&nbsp;&nbsp;&nbsp;&quot;gleason&quot; [8] &quot;pgg45&quot; &nbsp;&nbsp;&quot;lpsa&quot; &nbsp;&nbsp;&nbsp;&quot;train&quot; &nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">pairs(prostate[,c(9,1:8)])</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">#standardizing</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">temp1&lt;-prostate[,1:8]</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">temp2&lt;-scale(temp1)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">prostate[,1:8]&lt;-temp2</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">prostate.train &lt;- prostate[prostate$train==TRUE,-10]</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">prostate.test &lt;- prostate[prostate$train==FALSE,-10]</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">fit &lt;- lm(lpsa~.,data=prostate.train)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">summary(fit)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">Call:</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">lm(formula = lpsa ~ ., data = prostate.train)</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">&nbsp;</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">Residuals:</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1Q &nbsp;&nbsp;Median &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3Q &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max </font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">-1.64870 -0.34147 -0.05424 &nbsp;0.44941 &nbsp;1.48675 </font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">&nbsp;</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">Coefficients:</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Estimate Std. Error t value Pr(&gt;|t|) &nbsp;&nbsp;&nbsp;</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">(Intercept) &nbsp;2.47951 &nbsp;&nbsp;&nbsp;0.08963 &nbsp;27.665 &nbsp;&lt; 2e-16 ***</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">lcavol &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.67953 &nbsp;&nbsp;&nbsp;0.12663 &nbsp;&nbsp;5.366 1.47e-06 ***</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">lweight &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.30494 &nbsp;&nbsp;&nbsp;0.11086 &nbsp;&nbsp;2.751 &nbsp;0.00792 ** </font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">age &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-0.14146 &nbsp;&nbsp;&nbsp;0.10134 &nbsp;-1.396 &nbsp;0.16806 &nbsp;&nbsp;&nbsp;</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">lbph &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.21015 &nbsp;&nbsp;&nbsp;0.10222 &nbsp;&nbsp;2.056 &nbsp;0.04431 * &nbsp;</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">svi &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.30520 &nbsp;&nbsp;&nbsp;0.12360 &nbsp;&nbsp;2.469 &nbsp;0.01651 * &nbsp;</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">lcp &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-0.28849 &nbsp;&nbsp;&nbsp;0.15453 &nbsp;-1.867 &nbsp;0.06697 . &nbsp;</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">gleason &nbsp;&nbsp;&nbsp;&nbsp;-0.02131 &nbsp;&nbsp;&nbsp;0.14525 &nbsp;-0.147 &nbsp;0.88389 &nbsp;&nbsp;&nbsp;</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">pgg45 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.26696 &nbsp;&nbsp;&nbsp;0.15361 &nbsp;&nbsp;1.738 &nbsp;0.08755 . &nbsp;</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">---</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">Signif. codes: &nbsp;0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 </font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">&nbsp;</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">Residual standard error: 0.7123 on 58 degrees of freedom</font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">Multiple R-Squared: 0.6944, &nbsp;&nbsp;&nbsp;&nbsp;Adjusted R-squared: 0.6522 </font></p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"><font color="red">F-statistic: 16.47 on 8 and 58 DF, &nbsp;p-value: 2.042e-12 </font></p>
+<p>&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">pred.ls &lt;- predict(fit,prostate.test)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">err.ls &lt;- mean((pred.ls-prostate.test$lpsa)^2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p><font color="red">[1] 0.5863292</font></p>
+<p>&nbsp;</p>
+</body>
+
+</html>

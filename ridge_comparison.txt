@@ -1,0 +1,151 @@
+prostate<-read.table("prostate.data", header=T)
+
+train.x<-prostate[prostate$train==TRUE,-(9:10)]
+train.y<-prostate[prostate$train==TRUE,9]
+train<-cbind(train.x,train.y)
+
+### the relationship between df and lambda in ridge regression#######
+dd<-svd(train.x)$d
+dd
+myx<-as.matrix(train.x)
+myxx<-t(myx)%*%myx
+eigen(myxx)
+eigen(myxx)$values
+dd^2
+
+
+lambda<-1:10
+sapply(lambda, function(x) sum(dd^2/(dd^2 + x)))
+
+lambda2df<-function(lambda){
+	res<-rep(0,length(lambda))
+	for (i in 1:length(lambda)){
+		res[i]<-sum(dd^2/(dd^2+lambda[i]))
+	}
+	return(res)
+}
+
+
+df2lambda<-function(df){
+	fun1<-function(df,lambda){
+		df-sum(dd^2/(dd^2 + lambda))
+	}
+	res<-uniroot(f=function(lambda) fun1(df,lambda), lower=1e-300,upper=1000,maxiter=10000)$root
+	return(res)
+}
+
+
+df2lambda2<-function(df){
+	fun1<-function(df,lambda){
+		df-sum(dd^2/(dd^2 + lambda))
+	}
+	res<-uniroot(fun1, df=df, lower=1e-100,upper=10000,maxiter=10000)$root
+	return(res)
+}
+
+
+
+
+
+
+sapply(1:8, df2lambda)
+
+
+#### uniroot example  #######################
+
+myf1<-function(x){
+	x^3-2*x^2+x-13
+}
+
+aa<-uniroot(myf1, c(-10000, 10000))
+aa
+myf1(aa)
+myf1(aa$root)
+print(aa$root, digit=20)
+
+myf2<-function(x,y){
+	x^3-2*x^2+x-y
+}
+
+bb<-uniroot(myf2, y=13, lower=-10000, upper=10000)
+
+
+#### Now check 3 different ridge regressions
+
+r1<-simple.ridge(train.x,train.y, df=4.16)
+r1
+
+lm.ridge(lpsa~., data=train, lambda=r1$lambda)
+
+
+myridgecoeff<-function(x,y,lambda){
+	x1<-scale(x)
+	y1<-y-mean(y)
+	xx1<-t(x1)%*%x1
+	p<-nrow(xx1)
+	solve(xx1+lambda*diag(p))%*%t(x1)%*%y1
+}
+
+myridgecoeff(train.x,train.y, r1$lambda)
+
+
+
+
+
+	
+#################################################################
+simple.ridge<-function (x, y, lambda = 1, df, ...) 
+{
+    n <- NROW(x)
+    p <- NCOL(x)
+    mm <- colMeans(x)
+    x <- scale(x, mm, TRUE)
+    beta0 <- mean(y)
+    svd.x <- svd(x, nu = p, nv = p)
+    dd <- svd.x$d
+    u <- svd.x$u
+    v <- svd.x$v
+    if (missing(df)) {
+        df <- sapply(lambda, function(x) sum(dd^2/(dd^2 + x)))
+    }
+    else {
+        fun <- function(df, lambda) df - sum(dd^2/(dd^2 + lambda))
+        lambda <- sapply(df, FUN = function(df) uniroot(f = function(lambda) fun(df, 
+            lambda), lower = -1e-06, upper = 1000, maxiter = 10000)$root)
+    }
+    ystar <- t(u) %*% y
+    dstar <- sapply(lambda, function(x) dd/(dd^2 + x))
+    beta <- matrix(NA, p, length(lambda))
+    for (i in seq(along = lambda)) {
+        beta[, i] <- sweep(v, 2, dstar[, i], "*") %*% ystar
+    }
+    colnames(beta) <- lambda
+    rownames(beta) <- colnames(x)
+    return(list(beta0 = beta0, beta = beta, lambda = lambda, 
+        df = df))
+}
+
+##########################################################################
+
+### plot with error bars ############################
+
+plotwithsebar<-function(x,y,se,mywidth=0.02){
+#this plot is from lars package. I just changed it for general purpose
+
+	plot(x,y,type="b", ylim=range(y,y+se,y-se))
+	error.bars<-function(x,upper,lower,width=0.02,...){
+	xlim <- range(x)
+	barw <- diff(xlim) * width
+	segments(x, upper, x, lower, ...)
+	segments(x - barw, upper, x + barw, upper, ...)
+	segments(x - barw, lower, x + barw, lower, ...)
+	range(upper, lower)
+	}
+
+	error.bars(x,y+se,y-se,mywidth)
+}
+
+################################################################################
+
+
+## or use plotCI in gplots package

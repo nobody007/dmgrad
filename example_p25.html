@@ -1,0 +1,60 @@
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=euc-kr">
+<title># example in page 24-25.</title>
+<meta name="generator" content="Namo WebEditor v6.0">
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="purple" alink="red">
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"># example in page 24-25. curse of dimensionality</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"># x unif [-1,1]^p, p : dimension of x</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"># true function y=f(x)=exp(-8*||x||^2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;"># use 1-nn method to estimate y at x=0</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">#generate x from dimension 1 - 10</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">myrand&lt;-function(a,b,p,n){</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">#generate p-dim r.v from unif(a,b)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">#n is sample size</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;xx&lt;-matrix(runif(n*p,a,b),nrow=n,ncol=p)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;return(xx)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">}</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">nn&lt;-1000</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">sim.n&lt;-1000</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">sim.res&lt;-matrix(0,nrow=10,ncol=4)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">for (p in 1:10){</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">temp1&lt;-matrix(0,ncol=sim.n,nrow=2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;for ( i in 1:sim.n){</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#generate r.v's</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x&lt;-myrand(-1,1,p,nn)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dist1&lt;-rowSums(x^2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min1&lt;-min(dist1)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y1&lt;-exp(-8*min1)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;avgdist1&lt;-sqrt(min1)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp1[1,i]&lt;-y1</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp1[2,i]&lt;-avgdist1</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;sim.res[p,1]&lt;-mean(temp1[1,]) # estimate at x=0</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;sim.res[p,2]&lt;-mean(temp1[2,]) # avg.distance to nearest neighbor to 0</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;sim.res[p,3]&lt;-mean((temp1[1,]-1)^2) # sq.bias</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;sim.res[p,4]&lt;-var(temp1[1,]) # variance</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">}</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">par(mfrow=c(2,2))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">mydim&lt;-1:10</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(mydim,sim.res[,1],type=&quot;b&quot;,xlab=&quot;dim&quot;,ylab=&quot;&quot;,main=&quot;avg. estimate at x=0, true=1&quot;)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(mydim,sim.res[,2],type=&quot;b&quot;,xlab=&quot;dim&quot;,ylab=&quot;&quot;,main=&quot;avg. distance to nn at x=0&quot;)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(mydim,sim.res[,3],type=&quot;b&quot;,xlab=&quot;dim&quot;,ylab=&quot;MSE&quot;,main=&quot;MSE vs. dimension&quot;)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">lines(mydim,sim.res[,4],type=&quot;b&quot;,col=2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">lines(mydim,sim.res[,3]+sim.res[,4],type=&quot;b&quot;,col=3)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">legend(1,0.95,c(&quot;sq.bias&quot;,&quot;var&quot;,&quot;MSE&quot;),lty=rep(1,3),col=1:3)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+
+</html>

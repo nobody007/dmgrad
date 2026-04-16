@@ -1,0 +1,69 @@
+library(MASS)
+
+#generate X matrix
+x1<-mvrnorm(100,c(-3,-3),diag(2))
+x2<-mvrnorm(100,c(0,0),diag(2))
+x3<-mvrnorm(100,c(3,3),diag(2))
+
+plot(x1,ylim=c(-6,6),xlim=c(-6,6),col=1,pch=1)
+points(x2,col=2,pch=2)
+points(x3,col=3,pch=3)
+
+
+myx<-rbind(x1,x2,x3)
+myx1<-myx[,1]
+myx2<-myx[,2]
+
+
+#generate Y matrix
+myy1<-matrix(rep(c(1,0,0),100),nrow=100,byrow=T)
+myy2<-matrix(rep(c(0,1,0),100),nrow=100,byrow=T)
+myy3<-matrix(rep(c(0,0,1),100),nrow=100,byrow=T)
+
+myy<-rbind(myy1,myy2,myy3)
+
+
+lm1<-lm(myy~myx1+myx2)
+
+#to use predict() we need a dataframe obj as an input.
+xdata<-data.frame(cbind(myx1,myx2))
+lm1.pred<-predict(lm1,xdata)
+
+pred.res<-rep(0,nrow(myy))
+for (i in 1:length(pred.res)){
+	pred.res[i]<-which.max(lm1.pred[i,])
+}
+
+#see the results
+sum(ifelse(pred.res==1,1,0))
+sum(ifelse(pred.res==2,1,0))
+sum(ifelse(pred.res==3,1,0))
+
+#now lda
+y2<-rep(c(1,2,3),each=100)
+
+lda1<-lda(y2~myx1+myx2)
+lda2<-lda(y2~myx1+myx2,CV=TRUE)
+max.col(lda2$posterior)
+table(y2,max.col(lda2$posterior))
+
+
+lda.pred<-predict(lda1,xdata)
+table(y2,lda.pred$class)
+
+#qda is same except using function qda()
+
+
+
+#logistic regression
+library(nnet)
+logis1<-multinom(y2~myx1+myx2)
+logis1.pred<-predict(logis1,xdata)
+table(y2,logis1.pred)
+
+
+
+
+
+
+

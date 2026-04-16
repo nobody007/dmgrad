@@ -1,0 +1,70 @@
+sim.n<-50
+n<-300; p<-31;rho<-0.85
+cov1<-matrix(rho,nrow=p,ncol=p)
+diag(cov1)<-1
+mse1<-rep(0,sim.n)
+
+for (i in 1:sim.n){
+
+	x<-mvrnorm(n,rep(0,p),cov1)
+	aa<-cor(x)  #check the correlation
+
+	p1<-10; p2<-p-p1
+	beta1<-rnorm(p1,0,sqrt(0.4))
+	#beta1<-rnorm(p1,0,0.4)
+	beta2<-rep(0,p2)
+	beta<-c(beta1,beta2)
+	err<-rnorm(n,0,sqrt(6.25))
+	#err<-rnorm(n,0,6.25)
+
+	y<-x%*%beta+err
+	mydata<-data.frame(y,x)
+	lm1<-lm(y~x-1,data=mydata)
+
+	mse1[i]<-mean((lm1$coeff-beta)^2)
+
+}
+
+summary(mse1)
+
+
+
+
+library(leaps)
+bs1<-regsubsets(x=x,y=y,nvmax=31,intercept=F)
+bs1.s<-summary(bs1)
+bs1.s$adjr2
+select<-bs1.s$which
+
+sim.n<-50
+n<-300; p<-31;rho<-0.85
+cov1<-matrix(rho,nrow=p,ncol=p)
+diag(cov1)<-1
+mse2<-matrix(0,nrow=sim.n,ncol=p)
+for (j in 1:sim.n){
+	x<-mvrnorm(n,rep(0,p),cov1)
+	aa<-cor(x)  #check the correlation
+
+	p1<-10; p2<-p-p1
+	beta1<-rnorm(p1,0,sqrt(0.4))
+	#beta1<-rnorm(p1,0,0.4)
+	beta2<-rep(0,p2)
+	beta<-c(beta1,beta2)
+	err<-rnorm(n,0,sqrt(6.25))
+	#err<-rnorm(n,0,6.25)
+
+	y<-x%*%beta+err
+	for (i in 1:p){
+		mys<-select[i,]  #mys has which cols are selected.
+		myx<-x[,mys]
+		lm1.coeff<-lm(y~myx-1)$coeff
+		beta.s<-beta[mys]
+		mse2[j,i]<-mean((lm1.coeff-beta.s)^2)
+	}
+}
+
+plot(1:p,colMeans(mse2),type="b")
+
+
+
+

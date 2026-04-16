@@ -1,0 +1,136 @@
+<html>
+<head>
+<meta name="GENERATOR" content="Namo WebEditor(Trial)">
+<title>##ISL page 179 Fig 5.2</title>
+<meta http-equiv="content-type" content="text/html; charset=euc-kr">
+</head>
+<body>
+
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">##ISL page 179 Fig 5.2</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">install.packages(&quot;ISLR&quot;)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">library(ISLR)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">Auto</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">summary(Auto)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">#we will fit mpg~horsepower</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(mpg~horsepower, data=Auto)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">lm1&lt;-lm(mpg~horsepower,data=Auto)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">summary(lm1)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(lm1)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">#poly() funtion</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">x&lt;-1:10</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">poly(x,1,raw=T)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">poly(x,2,raw=T)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">poly(x,3,raw=T)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">lm2&lt;-lm(mpg~poly(horsepower,2,raw=T),data=Auto)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">summary(lm2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(lm2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">#let's compare linear vs quadratic model</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">par(mfrow=c(1,2))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(Auto$mpg,predict(lm1,Auto))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">abline(0,1,col=2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(Auto$mpg,predict(lm2,Auto))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">abline(0,1,col=2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">## why not poly with degree 3 or more?</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">lm3&lt;-lm(mpg~poly(horsepower,3,raw=T),data=Auto)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">summary(lm3)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">lm4&lt;-lm(mpg~poly(horsepower,4,raw=T),data=Auto)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">summary(lm4)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">par(mfrow=c(2,2))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(Auto$mpg,predict(lm1,Auto),main=&quot;degree 1&quot;)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">abline(0,1,col=2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(Auto$mpg,predict(lm2,Auto),main=&quot;degree 2&quot;)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">abline(0,1,col=2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(Auto$mpg,predict(lm3,Auto),main=&quot;degree 3&quot;)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">abline(0,1,col=2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(Auto$mpg,predict(lm4,Auto),main=&quot;degree 4&quot;)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">abline(0,1,col=2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">#hard to see which one is better</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">#compute 2 fold CV </p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">p&lt;-0.5</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">n&lt;-nrow(Auto)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">rep.n&lt;-100</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">mse&lt;-rep(0,rep.n)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">for (i in 1:rep.n){</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;train.ind&lt;-sample(n,as.integer(n*p))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;train.data&lt;-Auto[train.ind,]</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;test.data&lt;-Auto[-train.ind,]</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;lm1&lt;-lm(mpg~horsepower,data=train.data)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;lm1.pred&lt;-predict(lm1,test.data)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;mse[i]&lt;-mean((lm1.pred-test.data$mpg)^2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">}</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">rep.n&lt;-100</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">mse&lt;-matrix(0,ncol=10,nrow=rep.n)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">for (i in 1:rep.n){</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;train.ind&lt;-sample(n,as.integer(n*p))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;train.data&lt;-Auto[train.ind,]</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;test.data&lt;-Auto[-train.ind,]</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;for (j in 1:10){</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lm1&lt;-lm(mpg~poly(horsepower,j,raw=T),data=train.data)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lm1.pred&lt;-predict(lm1,test.data)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mse[i,j]&lt;-mean((lm1.pred-test.data$mpg)^2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;}</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">}</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">par(mfrow=c(1,1))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(colMeans(mse),type=&quot;b&quot;,xlab=&quot;degree of poly&quot;, ylab=&quot;MSE&quot;)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(mse[1,],type=&quot;l&quot;)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">for (j in 2:10){</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;lines(mse[j,],col=j)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">}</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(mse[1,],type=&quot;l&quot;,ylim=c(15,30))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">for (j in 2:10){</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;lines(mse[j,],col=j)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">}</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">plot(mse[1,],type=&quot;l&quot;,ylim=c(15,30))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">for (j in 2:100){</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;lines(mse[j,],col=j)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">}</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html> 

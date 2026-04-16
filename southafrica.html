@@ -1,0 +1,287 @@
+<p>Example : South African Heart Disease</p>
+<p>- Textbook (The elements of Statistical Learning, p100.)</p>
+<p>&nbsp;</p>
+<p>This is an example of Logistic regression. You can download the data from
+<a href="http://www-stat.stanford.edu/~tibs/ElemStatLearn/datasets/SAheart.data">
+here</a>.</p>
+<p>The aim of the study : &quot; To establish the intensity of ischemic heart disease 
+risk factors in that high-incidence region.&quot;</p>
+<p>The data represent white males between 15 and 64, the response variable is 
+the presence or absence of myocardial infarction at the time of survey.</p>
+<p>&nbsp;</p>
+<p><b>First read data into table.</b></p>
+<p><font face="Courier New">sfdata&lt;-read.table(&quot;h:\\my documents\\stat598m\\southafrica.txt&quot;,header=T, 
+sep=&quot;,&quot;)<br>
+</font><br>
+<font face="Courier New">&gt; sfdata[1:4,]<br>
+&nbsp;</font></p>
+<table x:str border="0" cellpadding="0" cellspacing="0" width="718" style="border-collapse:
+ collapse;width:539pt">
+  <colgroup>
+    <col width="78" style="width: 59pt">
+    <col width="64" span="10" style="width:48pt">
+  </colgroup>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" width="78" style="height: 12.75pt; width: 59pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    row.names</td>
+    <td width="64" style="width: 48pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    sbp</td>
+    <td width="64" style="width: 48pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    tobacco</td>
+    <td width="64" style="width: 48pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    ldl</td>
+    <td width="64" style="width: 48pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    adiposity</td>
+    <td width="64" style="width: 48pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    famhist</td>
+    <td width="64" style="width: 48pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    typea</td>
+    <td width="64" style="width: 48pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    obesity</td>
+    <td width="64" style="width: 48pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    alcohol</td>
+    <td width="64" style="width: 48pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    age</td>
+    <td width="64" style="width: 48pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    chd</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" align="right" style="height: 12.75pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" x:num>
+    1</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    160</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    12</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    5.73</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    23.11</td>
+    <td style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    Present</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    49</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    25.3</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    97.2</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    52</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    1</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" align="right" style="height: 12.75pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" x:num>
+    2</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    144</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    0.01</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    4.41</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    28.61</td>
+    <td style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    Absent</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    55</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    28.87</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    2.06</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    63</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    1</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" align="right" style="height: 12.75pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" x:num>
+    3</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    118</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    0.08</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    3.48</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    32.28</td>
+    <td style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    Present</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    52</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    29.14</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    3.81</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    46</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    0</td>
+  </tr>
+  <tr height="17" style="height:12.75pt">
+    <td height="17" align="right" style="height: 12.75pt; color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px" x:num>
+    4</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    170</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    7.5</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    6.41</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    38.03</td>
+    <td style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    Present</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    51</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    31.99</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    24.26</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    58</td>
+    <td align="right" x:num style="color: windowtext; font-size: 10.0pt; font-weight: 400; font-style: normal; text-decoration: none; font-family: Arial; text-align: general; vertical-align: bottom; white-space: nowrap; border: medium none; padding-left: 1px; padding-right: 1px; padding-top: 1px">
+    1</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Now fit the logistic regression model using GLM with binomial family and 
+logit function.</b></p>
+<p><font face="Courier New">res1&lt;-glm(chd~sbp+tobacco+ldl+famhist+obesity+alcohol+age, 
+data=sfdata,family=binomial(link=&quot;logit&quot;))</font></p>
+<pre><font size="3">&gt; summary(res1)</font></pre>
+<pre><font size="3">Call:
+glm(formula = chd ~ sbp + tobacco + ldl + famhist + obesity + 
+    alcohol + age, family = binomial(link = &quot;logit&quot;), data = sfdata)</font></pre>
+<pre><font size="3">Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.7517  -0.8378  -0.4552   0.9292   2.4434  </font></pre>
+<pre><font size="3">Coefficients:
+                 Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)    -4.1295997  0.9641558  -4.283 1.84e-05 ***
+sbp             0.0057607  0.0056326   1.023  <font color="#FF0000">0.30643</font>    
+tobacco         0.0795256  0.0262150   3.034  0.00242 ** 
+ldl             0.1847793  0.0574115   3.219  0.00129 ** 
+famhistPresent  0.9391855  0.2248691   4.177 2.96e-05 ***
+obesity        -0.0345434  0.0291053  -1.187  <font color="#FF0000">0.23529</font>    
+alcohol         0.0006065  0.0044550   0.136  <font color="#FF0000">0.89171</font>    
+age             0.0425412  0.0101749   4.181 2.90e-05 ***
+---
+Signif. codes:  0 `***' 0.001 `**' 0.01 `*' 0.05 `.' 0.1 ` ' 1 </font></pre>
+<pre><font size="3">(Dispersion parameter for binomial family taken to be 1)</font></pre>
+<pre><font size="3">    Null deviance: 596.11  on 461  degrees of freedom
+Residual deviance: 483.17  on 454  degrees of freedom
+AIC: 499.17</font></pre>
+<pre><font size="3">Number of Fisher Scoring iterations: 4</font></pre>
+<p>&nbsp;</p>
+<p><b>Notice that sbp, obesity, and alcohol are not significant (also check the 
+sign of obesity). Think why these variables are not significant.</b></p>
+<p><b>Let's drop these insignificant variables and refit the model.</b></p>
+<pre><font size="3">res2&lt;-glm(chd~tobacco+ldl+famhist+age, data=sfdata,family=binomial(link=&quot;logit&quot;))
+&gt; summary(res2)</font></pre>
+<pre><font size="3">Call:
+glm(formula = chd ~ tobacco + ldl + famhist + age, family = binomial(link = &quot;logit&quot;), 
+    data = sfdata)</font></pre>
+<pre><font size="3">Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.7559  -0.8632  -0.4545   0.9457   2.4904  </font></pre>
+<pre><font size="3">Coefficients:
+                Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)    -4.204275   0.498315  -8.437  &lt; 2e-16 ***
+tobacco         0.080701   0.025514   3.163  0.00156 ** 
+ldl             0.167584   0.054189   3.093  0.00198 ** 
+famhistPresent  0.924117   0.223178   4.141 3.46e-05 ***
+age             0.044042   0.009743   4.521 6.17e-06 ***
+---
+Signif. codes:  0 `***' 0.001 `**' 0.01 `*' 0.05 `.' 0.1 ` ' 1 </font></pre>
+<pre><font size="3">(Dispersion parameter for binomial family taken to be 1)</font></pre>
+<pre><font size="3">    Null deviance: 596.11  on 461  degrees of freedom
+Residual deviance: 485.44  on 457  degrees of freedom
+AIC: 495.44</font></pre>
+<pre><font size="3">Number of Fisher Scoring iterations: 4</font></pre>
+<pre>&nbsp;</pre>
+<pre><b><font face="Times New Roman" size="3">What's better way to find the best subsets? We may try stepwise regression.</font></b></pre>
+<pre><font size="3">res3&lt;-step(glm(chd~sbp+tobacco+ldl+famhist+obesity+alcohol+age,</font></pre>
+<pre><font size="3">data=sfdata,family=binomial(link=&quot;logit&quot;)))
+</font></pre>
+<pre><font size="3">&gt; summary(res3)</font></pre>
+<pre><font size="3">Call:
+glm(formula = chd ~ tobacco + ldl + famhist + age, family = binomial(link = &quot;logit&quot;), 
+    data = sfdata)</font></pre>
+<pre><font size="3">Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-1.7559  -0.8632  -0.4545   0.9457   2.4904  </font></pre>
+<pre><font size="3">Coefficients:
+                Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)    -4.204275   0.498315  -8.437  &lt; 2e-16 ***
+tobacco         0.080701   0.025514   3.163  0.00156 ** 
+ldl             0.167584   0.054189   3.093  0.00198 ** 
+famhistPresent  0.924117   0.223178   4.141 3.46e-05 ***
+age             0.044042   0.009743   4.521 6.17e-06 ***
+---
+Signif. codes:  0 `***' 0.001 `**' 0.01 `*' 0.05 `.' 0.1 ` ' 1 </font></pre>
+<pre><font size="3">(Dispersion parameter for binomial family taken to be 1)</font></pre>
+<pre><font size="3">    Null deviance: 596.11  on 461  degrees of freedom
+Residual deviance: 485.44  on 457  degrees of freedom
+AIC: 495.44</font></pre>
+<pre><font size="3">Number of Fisher Scoring iterations: 4</font></pre>
+<pre>&nbsp;</pre>
+<hr>
+<p><b>What if we use LDA for this dataset?</b></p>
+<p><font face="Courier New">res4&lt;-lda(chd~sbp+tobacco+ldl+famhist+obesity+alcohol+age, 
+data=sfdata)</font></p>
+<pre><font face="Times New Roman" size="3">
+</font></pre>
+<pre>&gt; res4
+Call:
+lda(chd ~ sbp + tobacco + ldl + famhist + obesity + alcohol + 
+    age, data = sfdata)</pre>
+<pre>Prior probabilities of groups:
+        0         1 
+0.6536797 0.3463203 </pre>
+<pre>Group means:
+       sbp  tobacco      ldl famhistPresent  obesity  alcohol      age
+0 135.4603 2.634735 4.344238      0.3178808 25.73745 15.93136 38.85430
+1 143.7375 5.524875 5.487938      0.6000000 26.62294 19.14525 50.29375</pre>
+<pre>Coefficients of linear discriminants:
+                         LD1
+sbp             0.0063076426
+tobacco         0.0860365407
+ldl             0.1815325955
+famhistPresent  0.9130521780
+obesity        -0.0375543907
+alcohol        -0.0004985136
+age             0.0336873430
+</pre>
+<pre>&nbsp;</pre>
+<p><b>Check the coefficients. They are very similar to that of Logistic 
+regression.</b></p>
+<p><b>If you like to see the posterior probability, use the option, CV=TRUE.</b></p>
+<pre>&gt; res5&lt;-lda(chd~sbp+tobacco+ldl+famhist+obesity+alcohol+age, data=sfdata,CV=TRUE)
+&gt; res5
+$class
+  [1] 1 0 0 1 1 1 0 1 0 0 0 1 0 0 1 0 1 1 1 1 0 0 1 0 1 1 0 1 1 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 1
+ [48] 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0
+ [95] 0 0 0 0 1 0 1 0 0 0 0 0 0 1 0 0 0 1 0 1 1 1 0 0 1 0 0 0 0 0 0 1 0 0 1 1 1 0 0 0 0 1 0 0 0 0 1
+[142] 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 1 1 0 0 0 0 1 0 0 0 1 0 0 1 0 1 0 1 0
+[189] 1 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 1 0 1 0 0 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 0 1 1 0 1 0 0 0
+[236] 1 0 1 0 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 1 1 0 1 1 0 0 0 1 0 1 0 0 1 0 1 0 0 0 0 0 1 1 0 0 0 0 0
+[283] 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 1 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0 1 0 0 1 0 0 1 0 0
+[330] 0 0 0 1 1 0 1 1 1 0 0 0 1 1 0 0 1 1 0 0 0 1 0 1 1 1 0 0 0 1 0 1 0 0 0 1 0 0 0 0 0 1 1 0 1 0 0
+[377] 0 0 0 0 0 0 1 0 1 1 1 1 0 1 0 0 0 0 0 0 1 0 1 0 0 0 1 1 1 0 1 1 0 0 1 0 1 1 1 0 1 0 1 0 0 0 1
+[424] 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0
+Levels: 0 1</pre>
+<pre>$posterior
+             0          1
+1   0.22962620 0.77037380
+2   0.73847792 0.26152208
+3   0.72142647 0.27857353
+4   0.26826301 0.73173699
+5   0.35072122 0.64927878
+6   0.44210885 0.55789115
+7   0.80294188 0.19705812
+8   0.43091395 0.56908605
+9   0.79968596 0.20031404
+10  0.55403583 0.44596417
+......</pre>
+<pre>&nbsp;</pre>
+<pre>&nbsp;</pre>
+<pre>&nbsp;</pre>

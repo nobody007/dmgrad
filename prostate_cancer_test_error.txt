@@ -1,0 +1,27 @@
+#textbook page 57, table 3.3 bottom (LS case)
+
+
+prostate <- read.table("prostate.data")
+temp1<-prostate[,1:8]
+temp2<-scale(temp1)
+prostate[,1:8]<-temp2
+
+mycv.total<-rep(0,100)
+
+for (i in 1:100){
+myid<-sample(nrow(prostate))
+prostate.shuffle<-prostate[myid,]
+
+prostate.train<-prostate.shuffle[1:67, -10]
+prostate.test<-prostate.shuffle[68:97,]
+
+fit<-lm(lpsa~., data=prostate.train)
+pred.ls<-predict(fit, prostate.test)
+err.ls<-mean((pred.ls-prostate.test$lpsa)^2)
+mycv.total[i]<-err.ls
+}
+
+
+mean(mycv.total)
+sd(mycv.total)
+

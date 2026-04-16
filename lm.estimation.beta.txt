@@ -1,0 +1,76 @@
+data(mtcars)
+
+summary(mtcars)
+plot(mtcars)
+
+lm1<-lm(mpg~., data=mtcars)
+summary(lm1)
+
+head(mtcars)
+
+mtcars.x<-as.matrix(mtcars[,-1])
+mtcars.y<-as.matrix(mtcars[,1])
+mybetahat<-solve(t(mtcars.x)%*%mtcars.x)%*%t(mtcars.x)%*%mtcars.y
+
+lm1$coeff
+mybetahat
+##what's wrong?
+
+
+mtcars.x<-cbind(1,mtcars.x)
+mybetahat<-solve(t(mtcars.x)%*%mtcars.x)%*%t(mtcars.x)%*%mtcars.y
+mybetahat
+lm1$coeff
+
+as.vector(mybetahat)-lm1$coeff
+
+#can we get betahat without computing inverse matrix?
+#use QR decomposition
+
+myqr<-qr(mtcars.x)
+myq<-qr.Q(myqr)
+myr<-qr.R(myqr)
+
+t(myq)%*%myq
+round(t(myq)%*%myq,10)
+
+myr 
+
+
+
+solve(myr,t(myq)%*%mtcars.y)
+#check with lm1$coeff
+
+#######################################
+### mse or shat
+sum(lm1$resid^2)  #sum of squares of residuals
+deviance(lm1)
+
+n<-nrow(mtcars)
+sqrt(deviance(lm1)/(n-11))
+
+summary(lm1)
+## distribution of betahat?
+## get std.err of each term
+solve(t(mtcars.x)%*%mtcars.x)
+n<-nrow(mtcars.x)
+p<-ncol(mtcars.x)
+
+mystderr<-sqrt(diag(solve(t(mtcars.x)%*%mtcars.x))*(deviance(lm1)/(n-p)))
+
+temp1<-summary(lm1)
+temp1$coeff
+temp1$coeff[,2]-mystderr
+
+pt(temp1$coeff[1,3],n-p)
+2*(1-pt(temp1$coeff[1,3],n-p))
+
+2*(1-pt(abs(temp1$coeff[,3]),n-p))
+
+
+
+
+
+
+
+

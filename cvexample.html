@@ -1,0 +1,36 @@
+<html>
+<head>
+<meta name="GENERATOR" content="Namo WebEditor v6.0">
+<meta http-equiv="content-type" content="text/html; charset=euc-kr">
+<title>#10-fold cv example</title>
+</head>
+<body>
+
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">#10-fold cv example</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">x1&lt;-runif(115,1,100)+runif(115,1,10)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">x2&lt;-rnorm(115,10,10)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">y&lt;-3+5*x1-7*x2+rnorm(115,0,3)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">mydata1&lt;-as.data.frame(cbind(y,x1,x2))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">myind&lt;-sample(nrow(mydata1))</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">len1&lt;-floor(length(myind)/10)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">mse&lt;-rep(0,10)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">for (i in 1:10){</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;startind&lt;-(i-1)*len1+1</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (i==10){</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endind&lt;-nrow(mydata1)} else</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endind&lt;-i*len1}</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testind&lt;-myind[startind:endind]</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;traindata&lt;-mydata1[-testind,]</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;testdata&lt;-mydata1[testind,]</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lm.fit1&lt;-lm(y~x1+x2,data=traindata)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lm.pred&lt;-predict(lm.fit1,testdata)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mse[i]&lt;-mean((lm.pred-testdata$y)^2)</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">}</p>
+<p style="line-height:100%; margin-top:0; margin-bottom:0;">&nbsp;</p>
+<p>#lasso example hint? cv.lars</p>
+<p>&nbsp;</p>
+</body>
+</html> 

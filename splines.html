@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0081)http://www.math.ku.dk/~richard/download/courses/stat_learn_2007/glm_and_splines.r -->
+<HTML><HEAD>
+<META content="text/html; charset=ks_c_5601-1987" http-equiv=Content-Type>
+<META name=GENERATOR content="MSHTML 8.00.6001.18702"></HEAD>
+<BODY><PRE>#Statistical Learning 2007.
+#Glm, splines and gam in R.
+
+
+#Loading the South African heart disease data and 
+#making an ordinary logistic regression estimation of 
+#the response (chd) using the same regression variables 
+#as in the table in the book (page 100).
+
+SA &lt;- read.table("http://www.math.ku.dk/~richard/download/courses/stat_learn_2007/SAheart.txt",header=TRUE,sep=",")
+SA.glm &lt;- glm(chd~sbp+tobacco+ldl+famhist+obesity+alcohol+age,family=binomial,data=SA)
+summary(SA.glm)
+
+#To obtain the estimate where we expand the effects in terms of natural
+#cubic splines, as in Example 5.2.2 (Figure 5.4), we can use the spline library
+#and ns (natural splines) to build a the required X-matrix. We use four
+#degrees of freedom as in the example. 
+
+library(splines)
+
+degf  &lt;- 4
+X &lt;- cbind(ns(SA$sbp,df=degf),ns(SA$tobacco,df=degf),ns(SA$ldl,df=degf),as.numeric(SA$famhist)-1,ns(SA$obesity,df=degf),ns(SA$age,df=degf))
+
+#To obtain exactly the same graph as in Figure 5.4 one needs to 
+#center the columns of X. The intercept column (column of ones) is 
+#of course not centered. This simply produces another basis for the 
+#column space. 
+
+X &lt;- cbind(rep(1,dim(SA)[1]),scale(X,scale=FALSE))
+
+#We obtain the coefficients, we use glm.fit (which is usually called
+#implicitly via glm). 
+
+SA.glm2 &lt;- glm.fit(X,SA$chd,family=binomial())
+coeff &lt;- SA.glm2$coefficients
+
+#The (asymptotic) variance-covariance matrix for the 22 parameters 
+#is obtained from the inverse of the second derivative of the 
+#minus-log-likelihood function. We construct functions for the estimated
+#expected value as well as the point-wise standard error. Then we produce 
+#a plot comparable with Figure 5.4. 
+
+S &lt;-  solve(t(X) %*% diag(SA.glm2$weights) %*% X)
+h1 &lt;- X[,2:5] %*% coeff[2:5]
+se1 &lt;- sqrt(diag(X[,2:5] %*% S[2:5,2:5] %*% t(X[,2:5])))
+
+h2 &lt;- X[,6:9] %*% coeff[6:9]
+se2 &lt;- sqrt(diag(X[,6:9] %*% S[6:9,6:9] %*% t(X[,6:9])))
+
+h3 &lt;- X[,10:13] %*%  coeff[10:13]
+se3 &lt;- sqrt(diag(X[,10:13] %*% S[10:13,10:13] %*% t(X[,10:13])))
+
+h4 &lt;- X[,14] *  coeff[14]
+se4 &lt;- sqrt(X[,14] * S[14,14] * X[,14])
+
+h5 &lt;- X[,15:18] %*%  coeff[15:18]
+se5 &lt;- sqrt(diag(X[,15:18] %*% S[15:18,15:18] %*% t(X[,15:18])))
+
+h6 &lt;- X[,19:22] %*%  coeff[19:22]
+se6 &lt;- sqrt(diag(X[,19:22] %*% S[19:22,19:22] %*% t(X[,19:22])))
+
+par(mfrow=c(3,2))
+plot(sort(SA$sbp),h1[order(SA$sbp)],type="l",ylim=c(-1,4),xlab="sbp",ylab="")
+lines(sort(SA$sbp),h1[order(SA$sbp)]+2*se1[order(SA$sbp)])
+lines(sort(SA$sbp),h1[order(SA$sbp)]-2*se1[order(SA$sbp)])
+rug(jitter(SA$sbp))
+
+plot(sort(SA$tobacco),h2[order(SA$tobacco)],type="l",ylim=c(-1,8),xlab="tobacco",ylab="")
+lines(sort(SA$tobacco),h2[order(SA$tobacco)]+2*se2[order(SA$tobacco)])
+lines(sort(SA$tobacco),h2[order(SA$tobacco)]-2*se2[order(SA$tobacco)])
+rug(jitter(SA$tobacco))
+
+plot(sort(SA$ldl),h3[order(SA$ldl)],type="l",ylim=c(-4,4),xlab="ldl",ylab="")
+lines(sort(SA$ldl),h3[order(SA$ldl)]+2*se3[order(SA$ldl)])
+lines(sort(SA$ldl),h3[order(SA$ldl)]-2*se3[order(SA$ldl)])
+rug(jitter(SA$ldl))
+
+plot(sort(SA$famhist),h4[order(SA$famhist)],type="l",ylim=c(-1,1),xlab="famhist",ylab="")
+points(sort(SA$famhist),h4[order(SA$famhist)]+2*se4[order(SA$famhist)])
+points(sort(SA$famhist),h4[order(SA$famhist)]-2*se4[order(SA$famhist)])
+
+plot(sort(SA$obesity),h5[order(SA$obesity)],type="l",ylim=c(-2,6),xlab="obesity",ylab="")
+lines(sort(SA$obesity),h5[order(SA$obesity)]+2*se5[order(SA$obesity)])
+lines(sort(SA$obesity),h5[order(SA$obesity)]-2*se5[order(SA$obesity)])
+rug(jitter(SA$obesity))
+
+plot(sort(SA$age),h6[order(SA$age)],type="l",ylim=c(-6,2),xlab="age",ylab="")
+lines(sort(SA$age),h6[order(SA$age)]+2*se6[order(SA$age)])
+lines(sort(SA$age),h6[order(SA$age)]-2*se6[order(SA$age)])
+rug(jitter(SA$age))
+
+
+#Using gam (generalized additive models) is an alternative to a fixed 
+#spline basis, which is sometimes also called regression splines, and with gam we use 
+#instead smoothing splines meaning that the smootheness is controlled by 
+#a penalty parameter. This parameter is specified through the df parameter below. 
+#The resulting plot is comprable with Figure 5.4.  
+
+library(gam)
+
+SA.gam &lt;- gam(chd~s(sbp,df=4)+s(tobacco,df=4)+s(ldl,df=4)+famhist+s(obesity,df=4)+s(age,df=4),family=binomial(),data=SA)
+summary(SA.gam)
+windows()
+par(mfrow=c(3,2))
+plot(SA.gam,se=TRUE)
+</PRE></BODY></HTML>

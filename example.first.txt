@@ -1,0 +1,31 @@
+x1<-mvrnorm(100,c(0,1),diag(2))
+x2<-mvrnorm(100,c(1,-1),diag(2))
+
+x<-rbind(x1,x2)
+plot(x1, xlim=c(min(x),max(x)),ylim=c(min(x),max(x)),col=1,pch=1)
+points(x2,col=2,pch=2)
+
+y1<-rep(0,100)
+y2<-rep(1,100)
+y<-c(y1,y2)
+
+y<-rep(c(0,1),each=100)
+
+lm1<-lm(y~x)
+
+mybrdy<-function(beta0,beta1,beta2,x1){
+
+	x2<-(0.5-beta0-beta1*x1)/beta2
+		return(x2)
+
+		}
+
+		myx1<-seq(-2.2,3.7,0.01)
+
+		myx2<-mybrdy(0.46331,0.11319,-0.21729,myx1)
+
+		lines(myx1,myx2,col=3)
+
+		library(class)
+		knn1<-knn(x,x,y,k=10)
+

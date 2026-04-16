@@ -1,0 +1,20 @@
+          Predicted
+          Negative Positive
+Negative  TN       FP
+Postive   FN       TP
+
+Accuracy = (TN+TP)/(TN+FP+FN+TP)
+True postive rate(TPR) = TP/(TP+FN) 실제 postive중에 positive로 예측한 비율
+False positive rate(FPR) = FP/(TN+FP) 실제 negative중에 positive로 예측한 비율
+True negative rate(TNR) = TN/(TN+FP) = Specificity(특이도)
+
+Sensitivity = TPR
+Recall(민감도) = TP/(TP+FN) = TPR = Sensitivity
+Specificity(특이도) = TN/(TN+FP) = 1-FPR = TNR
+Precision(정밀도) = TP/(TP+FP) = Postive로 예측된 자료중 실제 positive의 비율
+잘보면 Precision만 예측된 자료중 true의 비율을 계산
+
+F1-score = 2*recall*precision/(recall+precision)
+일반적으로 recall 증가 precision 감소, vice versa
+이 두 지표의 조화평균 (값이 0에서 1)
+

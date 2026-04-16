@@ -1,0 +1,24 @@
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=euc-kr">
+<title>Datamining 2008 </title>
+<meta name="generator" content="Namo WebEditor v6.0">
+</head>
+
+<body bgcolor="#CCFFFF" text="black" link="blue" vlink="purple" alink="red">
+<p align="center"><font size="5">Datamining 2008 </font></p>
+<p>Instructor : Jongwoo Song</p>
+<p>Time : Mon 2:00 - 5:00</p>
+<p><a href="courseinfo.html">Course information</a></p>
+<p><a href="example1.html">Example1</a> (curse of dimensionality example, textbook page 24-25)</p>
+<p><a href="cvexample.html">CV example</a></p>
+<p><a href="southafrica.html">South Africa heart disease</a></p>
+<p>&nbsp;</p>
+<p><a href="prj2data1.txt">Project example data1</a></p>
+<p><a href="prj2data2.txt">Project example data2</a></p>
+<p><a href="finalproj.html">Final Project</a></p>
+<p>&nbsp;</p>
+</body>
+
+</html>
