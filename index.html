@@ -1,78 +1,357 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Mining</title>
+<style>
+  :root {
+    --navy: #1a2f4b;
+    --navy-dark: #0f1d30;
+    --accent: #8a6d3b;
+    --bg: #f7f7f5;
+    --card: #ffffff;
+    --border: #e3e1db;
+    --text: #24262b;
+    --text-muted: #5c6068;
+    --radius: 6px;
+  }
 
-<title>Datamining</title><meta name="generator" content="Namo WebEditor(Trial)"></head>
+  * { box-sizing: border-box; }
 
-<body alink="red" bgcolor="#ccffff" link="blue" text="black" vlink="purple">
-<p align="center"><font size="5">Datamining - Graduate course</font></p>
-<p>Instructor : Jongwoo Song</p>
-<p><a href="courseinfo.html">Course information</a></p>
-<p><a href="All.Labs.txt">All Lab R code</a> (Textbook : Introduction to Statistical Learning)</p>
-<p><a href="islhand.html">ISL handouts</a></p>
-<p><a href="ESLII.pdf">ESL II book </a></p>
-<hr>
-<p><a href="example_p25.html">Example 1</a>. (Curse of dimensionality, textbook p25)</p>
-<p><a href="example.prostate.html">Example 2</a>. (Prostate cancer data, textbook p48) &nbsp;&nbsp;<a href="prostate.data">Data</a> </p>
-<p><a href="prostate_cancer_test_error.txt">Example 2.1</a> (Prostate cancer, compute test error)</p>
-<p><a href="ridge_comparison.txt">Example 2.2</a> (Prostate Cance, Ridge regression inside)</p>
-<p><a href="cvexample.txt">Example 3.</a> (Cross-validation example code)</p>
-<p>&nbsp;</p>
-<p><a href="lm.estimation.beta.txt">lm function duplication</a> </p>
-<p><a href="subset selection fig 3.6 p59 R code.txt">How to get the model objects from leaps package</a></p>
-<p><a href="logistic.predict.vs.fitted.pdf">Logistic Regression Predict vs Fitted (Thanks to Ahn and Mang)</a></p>
-<p><a href="http://home.ewha.ac.kr/~josong/dm/LogisticRegressionWithR.pdf">Logistic regression example in R</a> (<a href="http://home.ewha.ac.kr/~josong/dm/mathcat.data">Data</a>) <span style="color: rgb(0, 0, 0); font-family: 'Malgun Gothic'; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">Thanks to Prof. Jerry Brunner, University of Toronto</span></p>
-<p><a href="fscore.pdf">Classificaion f-score and ROC (Thanks to J. Kim)</a></p>
-<p><a href="classification_measures.pdf"> Classification Performance Measures
-</a></p>
-<p>&nbsp;</p>
-<p><a href="http://home.ewha.ac.kr/~josong/dm/performance.r.txt">How to compute CV</a></p>
-<p><a href="cvexample2.html">CV example (ISL p.178)</a></p>
-<p><a href="prefiltering_example1.html">Prefiltering example</a></p>
+  body {
+    margin: 0;
+    font-family: "Georgia", "Nanum Myeongjo", "Apple SD Gothic Neo", "Malgun Gothic", serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
 
-<p>&nbsp;</p>
-<p><a href="southafrica.html">South Africa Heart Disease example</a></p>
-<p><a href="ldaqda_eg.txt">LDA example</a></p>
-<p><a href="ada_manual.pdf">R package 'ada'</a></p>
-<p><a href="gbm2.pdf">A guide for R package 'gbm'</a></p>
-<p><a href="svm_in_R.pdf">Support Vector Machines in R</a></p>
-<p><a href="svm_guide.pdf">SVM Guide</a></p>
-<p><a href="http://uc-r.github.io/svm">SVM R Tutorial</a></p>
-<p><a href="https://uc-r.github.io/random_forests">RandomForest tutorial (need tidyverse package)</a></p>
-<p><a href="https://arxiv.org/pdf/1603.02754.pdf">XGBoost Paper</a></p>
-<p><a href="XGBoost.pdf">Brief summary</a></p>
-<p><a href="https://cran.r-project.org/web/packages/xgboost/vignettes/xgboostPresentation.html">XGBoost R tutorial</a></p>
-<p><a href="https://cran.r-project.org/web/packages/xgboost/vignettes/xgboost.pdf">XGBoost simple example</a></p>
-<p><a href="https://xgboost.readthedocs.io/en/latest/index.html">XGBoost Documentations</a></p>
-<p><a href="https://www.hackerearth.com/practice/machine-learning/machine-learning-algorithms/beginners-tutorial-on-xgboost-parameter-tuning-r/tutorial/">
-Parameter tuning for XGBoost</a></p>
-<p><a href="Xgboost_Review.pdf">XGBoost review</a></p>
-<p><a href="adult data_Xgboost_Catboost.pdf">adult data analysis using xgboost and catboost</a></p>
-<p><a href="Catboost_Review.pdf">Catboost review</a></p>
-<p><a href="LightGBM_Review.pdf">LightGBM review</a></p>
-<p><a href="LightGBM-adult-example.html">LightGBM 실습</a></p>
+  header.site-header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+    color: #f2f2f0;
+    padding: 3.5rem 1.5rem 3rem;
+    text-align: center;
+    border-bottom: 4px solid var(--accent);
+  }
 
-<p><a href="http://topepo.github.io/caret/index.html">CARET package 설명</a></p>
-<p><a href="https://www.machinelearningplus.com/machine-learning/caret-package/">Caret package Tutorial</a></p>
-<p><a href="MLP.pdf">MLP</a></p>
-<p><a href="dl1.pdf">Deep Learning 1 (Thanks to Lee, H.)</a></p>
-<p><a href="dl2.pdf">Deep Learning 2 (Thanks to Lee, H.)</a></p>
-<p><a href="MNIST-example.html">MNIST-example (Thanks to Lee, H.)</a></p>
-<p><a href="CIFAR10-example.html">CIFAR10-example (Thanks to Lee, H.)</a></p>
-<p><a href="Grad-CAM-example.html">Grad-CAM-example (Thanks to Lee, H.)</a></p>
-<p><a href="CAM-OpenCV.pdf">CAM-OpenCV (Thanks to Lee, H.)</a></p>
-<hr>
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.75rem;
+    color: #c9b98a;
+    margin: 0 0 0.75rem;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
 
-<p><a href="http://archive.ics.uci.edu/ml/">UCI Data Repository</a></p>
-<p><a href="https://www.kaggle.com">Kaggle competition</a></p>
-<p><a href="https://www.youtube.com/watch?v=CtgjPG11eII&t=4469s">디지털음악의 경고
-</a></p>
-<p>&nbsp;</p>
-<hr>
-<p>Final Project Examples</p>
-<p>1. <a href="drama.rating.pdf">A Study on Domestic Drama Rating Prediction</a></p>
-<p>2. <a href="food.delivery.pdf">Prediction of the number of food delivery services</a></p>
-<p>3. <a href="horse.race.pdf">Analysis of Horse Races</a></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-</body></html>
+  header.site-header h1 {
+    margin: 0;
+    font-size: 2.4rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  header.site-header p.subtitle {
+    margin: 0.9rem 0 0;
+    color: #cfd4dc;
+    font-size: 1rem;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+
+  nav.top-nav {
+    margin-top: 1.75rem;
+  }
+
+  nav.top-nav a {
+    display: inline-block;
+    color: #f2f2f0;
+    text-decoration: none;
+    border: 1px solid rgba(242,242,240,0.4);
+    padding: 0.55rem 1.4rem;
+    border-radius: var(--radius);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+
+  nav.top-nav a:hover {
+    background: rgba(242,242,240,0.12);
+    border-color: #c9b98a;
+  }
+
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  section.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.75rem 2rem;
+    margin-bottom: 1.75rem;
+    box-shadow: 0 1px 3px rgba(15, 29, 48, 0.04);
+  }
+
+  section.card h2 {
+    margin: 0 0 0.3rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--navy);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+
+  section.card p.section-note {
+    margin: 0 0 1.1rem;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+
+  ul.resource-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul.resource-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  ul.resource-list li:last-child {
+    border-bottom: none;
+  }
+
+  .badge {
+    flex: none;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--navy);
+    background: #eef1f5;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.18rem 0.42rem;
+    min-width: 2.4rem;
+    text-align: center;
+    align-self: flex-start;
+    margin-top: 0.12rem;
+  }
+
+  ul.resource-list a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  ul.resource-list a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  ul.resource-list .aux-link {
+    font-size: 0.88rem;
+    color: var(--accent);
+  }
+
+  ul.resource-list .note {
+    display: block;
+    width: 100%;
+    margin-top: 0.15rem;
+    margin-left: calc(2.4rem + 0.6rem);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1.5rem 3rem;
+    color: var(--text-muted);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.85rem;
+  }
+
+  footer a {
+    color: var(--navy);
+  }
+
+  @media (max-width: 600px) {
+    header.site-header h1 { font-size: 1.9rem; }
+    section.card { padding: 1.4rem 1.3rem; }
+    ul.resource-list .note { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <p class="eyebrow">Graduate Course</p>
+  <h1>Data Mining</h1>
+  <p class="subtitle">Instructor: Jongwoo Song &nbsp;·&nbsp; Statistical Learning · Ensemble Methods · Deep Learning</p>
+  <nav class="top-nav">
+    <a href="courseinfo.html">Course Information</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="card" id="materials">
+    <h2>Course Materials</h2>
+    <ul class="resource-list">
+      <li>
+        <span class="badge">TXT</span><a href="All.Labs.txt">All Lab R Code</a>
+        <span class="note">Textbook: Introduction to Statistical Learning</span>
+      </li>
+      <li><span class="badge">HTML</span><a href="islhand.html">ISL Handouts</a></li>
+      <li><span class="badge">PDF</span><a href="ESLII.pdf">ESL II Book</a></li>
+    </ul>
+  </section>
+
+  <section class="card" id="examples">
+    <h2>Textbook Examples</h2>
+    <ul class="resource-list">
+      <li>
+        <span class="badge">HTML</span><a href="example_p25.html">Example 1</a>
+        <span class="note">Curse of dimensionality, textbook p.25</span>
+      </li>
+      <li>
+        <span class="badge">HTML</span><a href="example.prostate.html">Example 2</a>
+        <span class="aux-link">(<a href="prostate.data">Data</a>)</span>
+        <span class="note">Prostate cancer data, textbook p.48</span>
+      </li>
+      <li>
+        <span class="badge">TXT</span><a href="prostate_cancer_test_error.txt">Example 2.1</a>
+        <span class="note">Prostate cancer, compute test error</span>
+      </li>
+      <li>
+        <span class="badge">TXT</span><a href="ridge_comparison.txt">Example 2.2</a>
+        <span class="note">Prostate cancer, ridge regression inside</span>
+      </li>
+      <li>
+        <span class="badge">TXT</span><a href="cvexample.txt">Example 3</a>
+        <span class="note">Cross-validation example code</span>
+      </li>
+      <li><span class="badge">TXT</span><a href="lm.estimation.beta.txt">lm Function Duplication</a></li>
+      <li><span class="badge">TXT</span><a href="subset selection fig 3.6 p59 R code.txt">How to Get the Model Objects from the leaps Package</a></li>
+      <li>
+        <span class="badge">PDF</span><a href="logistic.predict.vs.fitted.pdf">Logistic Regression: Predict vs Fitted</a>
+        <span class="note">Thanks to Ahn and Mang</span>
+      </li>
+      <li>
+        <span class="badge">LINK</span><a href="http://home.ewha.ac.kr/~josong/dm/LogisticRegressionWithR.pdf">Logistic Regression Example in R</a>
+        <span class="aux-link">(<a href="http://home.ewha.ac.kr/~josong/dm/mathcat.data">Data</a>)</span>
+        <span class="note">Thanks to Prof. Jerry Brunner, University of Toronto</span>
+      </li>
+      <li>
+        <span class="badge">PDF</span><a href="fscore.pdf">Classification F-score and ROC</a>
+        <span class="note">Thanks to J. Kim</span>
+      </li>
+      <li><span class="badge">PDF</span><a href="classification_measures.pdf">Classification Performance Measures</a></li>
+      <li><span class="badge">LINK</span><a href="http://home.ewha.ac.kr/~josong/dm/performance.r.txt">How to Compute CV</a></li>
+      <li><span class="badge">HTML</span><a href="cvexample2.html">CV Example</a> <span class="aux-link">(ISL p.178)</span></li>
+      <li><span class="badge">HTML</span><a href="prefiltering_example1.html">Prefiltering Example</a></li>
+      <li><span class="badge">HTML</span><a href="southafrica.html">South Africa Heart Disease Example</a></li>
+      <li><span class="badge">TXT</span><a href="ldaqda_eg.txt">LDA Example</a></li>
+    </ul>
+  </section>
+
+  <section class="card" id="packages">
+    <h2>R Packages &amp; Tools</h2>
+    <ul class="resource-list">
+      <li><span class="badge">PDF</span><a href="ada_manual.pdf">R Package 'ada'</a></li>
+      <li><span class="badge">PDF</span><a href="gbm2.pdf">A Guide for R Package 'gbm'</a></li>
+      <li><span class="badge">PDF</span><a href="svm_in_R.pdf">Support Vector Machines in R</a></li>
+      <li><span class="badge">PDF</span><a href="svm_guide.pdf">SVM Guide</a></li>
+      <li><span class="badge">LINK</span><a href="http://uc-r.github.io/svm">SVM R Tutorial</a></li>
+      <li>
+        <span class="badge">LINK</span><a href="https://uc-r.github.io/random_forests">RandomForest Tutorial</a>
+        <span class="note">Requires the tidyverse package</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="card" id="boosting">
+    <h2>Boosting: XGBoost, CatBoost &amp; LightGBM</h2>
+    <ul class="resource-list">
+      <li><span class="badge">LINK</span><a href="https://arxiv.org/pdf/1603.02754.pdf">XGBoost Paper</a></li>
+      <li><span class="badge">PDF</span><a href="XGBoost.pdf">Brief Summary</a></li>
+      <li><span class="badge">LINK</span><a href="https://cran.r-project.org/web/packages/xgboost/vignettes/xgboostPresentation.html">XGBoost R Tutorial</a></li>
+      <li><span class="badge">LINK</span><a href="https://cran.r-project.org/web/packages/xgboost/vignettes/xgboost.pdf">XGBoost Simple Example</a></li>
+      <li><span class="badge">LINK</span><a href="https://xgboost.readthedocs.io/en/latest/index.html">XGBoost Documentation</a></li>
+      <li><span class="badge">LINK</span><a href="https://www.hackerearth.com/practice/machine-learning/machine-learning-algorithms/beginners-tutorial-on-xgboost-parameter-tuning-r/tutorial/">Parameter Tuning for XGBoost</a></li>
+      <li><span class="badge">PDF</span><a href="Xgboost_Review.pdf">XGBoost Review</a></li>
+      <li><span class="badge">PDF</span><a href="adult data_Xgboost_Catboost.pdf">Adult Data Analysis Using XGBoost and CatBoost</a></li>
+      <li><span class="badge">PDF</span><a href="Catboost_Review.pdf">CatBoost Review</a></li>
+      <li><span class="badge">PDF</span><a href="LightGBM_Review.pdf">LightGBM Review</a></li>
+      <li><span class="badge">HTML</span><a href="LightGBM-adult-example.html">LightGBM 실습</a></li>
+    </ul>
+  </section>
+
+  <section class="card" id="dl">
+    <h2>CARET &amp; Deep Learning</h2>
+    <ul class="resource-list">
+      <li><span class="badge">LINK</span><a href="http://topepo.github.io/caret/index.html">CARET Package 설명</a></li>
+      <li><span class="badge">LINK</span><a href="https://www.machinelearningplus.com/machine-learning/caret-package/">CARET Package Tutorial</a></li>
+      <li><span class="badge">PDF</span><a href="MLP.pdf">MLP</a></li>
+      <li>
+        <span class="badge">PDF</span><a href="dl1.pdf">Deep Learning 1</a>
+        <span class="note">Thanks to Lee, H.</span>
+      </li>
+      <li>
+        <span class="badge">PDF</span><a href="dl2.pdf">Deep Learning 2</a>
+        <span class="note">Thanks to Lee, H.</span>
+      </li>
+      <li>
+        <span class="badge">HTML</span><a href="MNIST-example.html">MNIST Example</a>
+        <span class="note">Thanks to Lee, H.</span>
+      </li>
+      <li>
+        <span class="badge">HTML</span><a href="CIFAR10-example.html">CIFAR10 Example</a>
+        <span class="note">Thanks to Lee, H.</span>
+      </li>
+      <li>
+        <span class="badge">HTML</span><a href="Grad-CAM-example.html">Grad-CAM Example</a>
+        <span class="note">Thanks to Lee, H.</span>
+      </li>
+      <li>
+        <span class="badge">PDF</span><a href="CAM-OpenCV.pdf">CAM-OpenCV</a>
+        <span class="note">Thanks to Lee, H.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="card" id="external">
+    <h2>External Resources</h2>
+    <ul class="resource-list">
+      <li><span class="badge">LINK</span><a href="http://archive.ics.uci.edu/ml/">UCI Data Repository</a></li>
+      <li><span class="badge">LINK</span><a href="https://www.kaggle.com">Kaggle Competition</a></li>
+      <li><span class="badge">LINK</span><a href="https://www.youtube.com/watch?v=CtgjPG11eII&t=4469s">디지털음악의 경고</a></li>
+    </ul>
+  </section>
+
+  <section class="card" id="final-project">
+    <h2>Final Project Examples</h2>
+    <ul class="resource-list">
+      <li><span class="badge">PDF</span><a href="drama.rating.pdf">A Study on Domestic Drama Rating Prediction</a></li>
+      <li><span class="badge">PDF</span><a href="food.delivery.pdf">Prediction of the Number of Food Delivery Services</a></li>
+      <li><span class="badge">PDF</span><a href="horse.race.pdf">Analysis of Horse Races</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <p>Data Mining &middot; <a href="courseinfo.html">Course Information</a></p>
+</footer>
+
+</body>
+</html>
